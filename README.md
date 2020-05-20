@@ -1,6 +1,6 @@
 # BBDD_P3
 Hector feo 
-- [ ] Vuelo
+- [x] Vuelo
 - [x] Aerolinea
 - [ ] Avión 
 - [ ] Aeropuerto
