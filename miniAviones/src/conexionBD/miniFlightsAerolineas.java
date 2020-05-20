@@ -12,7 +12,7 @@ import conexionBD.jdbc.ConfiguracionOracle;
  * Esta clase lee datos de la tabla "title" en MySQL, los procesa y 
  * los inserta en la tabla "peliculas_ejemplo" en BD Oracle.
  */
-public class EjemploMiniIMDB {
+public class miniFlightsAerolineas {
 
 	public static void main(String args[]) {
 		ConectorJDBC oracle = null;
@@ -29,34 +29,33 @@ public class EjemploMiniIMDB {
 			
 			// Esta llamada solo se tendria que hacer 
 			// si no existe la tabla de peliculas en Oracle
-			crearTablaDePeliculas(oracle);
+			crearTablaDeAerolineas(oracle);
 			
 			// Esta llamada solo se tendria que hacer
 			// si nos interesa borrar todo el contenido
 			// de la tabla de peliculas en Oracle (por ejemplo
 			// queremos volver a cargar todos los datos)
-			borrarContenidoTablaDePeliculas(oracle);
+			borrarContenidoTablaDeAerolineas(oracle);
 			
 			// Seleccionamos los titulos y el ano de produccion
 			// de las peliculas almacenadas en la tabla
 			// "title" en la BD MySQL.
 			// for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title")) { // Se pega un buen rato insertando
 			// mejor insertamos los 20 primeros resultados de la consulta siguiente...
-			for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title WHERE 1990 <= production_year AND production_year <= 1999 LIMIT 20")) {
+			for(Cursor c: mysql.executeQueryAndGetCursor("SELECT * FROM carriers")) {
 				// De cada fila extraemos los datos y los procesamos. 
 				// A continuacion los insertamos en la BD Oracle.
-				System.out.println("Insertando "+c.getString("title")+" - "+(2013-c.getInteger("production_year")));
-				oracle.executeSentence("INSERT INTO PELICULAS_EJEMPLO(NOMBRE,ANTIGUEDAD) VALUES (?,?)", 
-						c.getString("title"), 2013-c.getInteger("production_year"));
+				System.out.println("Insertando "+c.getString("code")+" - "+(c.getString("name")));
+				oracle.executeSentence("INSERT INTO AEROLINEA(ID,NOMBRE) VALUES (?,?)", 
+						c.getString("code"), c.getString("name"));
 		}
 			
 			// Finalmente listamos el contenido resultante
-			oracle.executeQuery("SELECT * FROM PELICULAS_EJEMPLO");
+			oracle.executeQuery("SELECT * FROM AEROLINEA");
 			
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		} finally {
-			borrarTablaDePeliculas(oracle);
 			if (oracle != null) oracle.disconnect();
 			if (mysql != null) mysql.disconnect();
 		}
@@ -90,21 +89,15 @@ public class EjemploMiniIMDB {
 		return oracle;
 	}
 	
-	private static void borrarContenidoTablaDePeliculas(ConectorJDBC o) {
+	private static void borrarContenidoTablaDeAerolineas(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("TRUNCATE TABLE PELICULAS_EJEMPLO");
+		sb.append("TRUNCATE TABLE AEROLINEA");
 		o.executeSentence(sb.toString());
 	}
 	
-	private static void borrarTablaDePeliculas(ConectorJDBC o) {
+	private static void crearTablaDeAerolineas(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("DROP TABLE PELICULAS_EJEMPLO");
-		o.executeSentence(sb.toString());
-	}
-
-	private static void crearTablaDePeliculas(ConectorJDBC o) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("CREATE TABLE PELICULAS_EJEMPLO(");
+		sb.append("CREATE TABLE AEROLINEA(");
 		sb.append("ID VARCHAR(7) PRIMARY KEY,");
 		sb.append("NOMBRE VARCHAR(100)");
 		sb.append(")");
