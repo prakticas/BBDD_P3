@@ -42,21 +42,21 @@ public class EjemploMiniIMDB {
 			// "title" en la BD MySQL.
 			// for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title")) { // Se pega un buen rato insertando
 			// mejor insertamos los 20 primeros resultados de la consulta siguiente...
-			for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title WHERE 1990 <= production_year AND production_year <= 1999 LIMIT 20")) {
+			for(Cursor c: mysql.executeQueryAndGetCursor("SELECT airport, city FROM airports ")) {
 				// De cada fila extraemos los datos y los procesamos. 
 				// A continuacion los insertamos en la BD Oracle.
-				System.out.println("Insertando "+c.getString("title")+" - "+(2013-c.getInteger("production_year")));
-				oracle.executeSentence("INSERT INTO PELICULAS_EJEMPLO(NOMBRE,ANTIGUEDAD) VALUES (?,?)", 
-						c.getString("title"), 2013-c.getInteger("production_year"));
+				System.out.println("Aereopuerto:  "+c.getString("airport")+" - "+c.getString("city"));
+				/*oracle.executeSentence("INSERT INTO PELICULAS_EJEMPLO(NOMBRE,ANTIGUEDAD) VALUES (?,?)", 
+						c.getString("title"), 2013-c.getInteger("production_year"));*/
 		}
 			
 			// Finalmente listamos el contenido resultante
-			oracle.executeQuery("SELECT * FROM PELICULAS_EJEMPLO");
+			//oracle.executeQuery("SELECT * FROM PELICULAS_EJEMPLO");
 			
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		} finally {
-			borrarTablaDePeliculas(oracle);
+			//borrarTablaDePeliculas(oracle);
 			if (oracle != null) oracle.disconnect();
 			if (mysql != null) mysql.disconnect();
 		}
