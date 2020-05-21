@@ -1,9 +1,9 @@
 
 
 
-select incidecia.id, auxiliar.carrierDelay
-from incidecia 
+select incidencia.id, auxiliar.carrierDelay
+from incidencia 
 inner join 
 auxiliar
-ON incidecia.vuelo=auxiliar.idv
-where incidecia.tipo="retraso";
+ON incidencia.vuelo=auxiliar.id
+where incidencia.tipo='retrasado';
