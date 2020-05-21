@@ -96,12 +96,12 @@ public class retraso {
 	}
 	private static void poblarRetraso(ConectorJDBC o) {
 		
-		o.executeSentence("select incidecia.id, auxiliar.carrierDelay\n" + 
-				"from incidecia \n" + 
+		o.executeSentence("select incidencia.id, auxiliar.carrierDelay\n" + 
+				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
-				"ON incidecia.vuelo=auxiliar.idv\n" + 
-				"where incidecia.tipo=\"retraso\"");
+				"ON incidencia.vuelo=auxiliar.id\n" + 
+				"where incidencia.tipo=\"retraso\"");
 	}
 
 	private static void crearRetraso(ConectorJDBC o) {
@@ -110,7 +110,7 @@ public class retraso {
 		sb.append("Id Number(11),");
 		sb.append("Tiempo Number(11),");
 		sb.append("PRIMARY KEY (Id),");
-		sb.append("Foreign key  Id references incidencia(id) ");
+		sb.append("Foreign key(Id) references incidencia(id) ");
 		sb.append(")");
 		o.executeSentence(sb.toString());
 	}
