@@ -56,7 +56,6 @@ public class Auxiliar {
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		} finally {
-			borrarTablaDePeliculas(oracle);
 			if (oracle != null) oracle.disconnect();
 			if (mysql != null) mysql.disconnect();
 		}
