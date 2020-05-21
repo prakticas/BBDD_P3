@@ -46,7 +46,7 @@ public class miniFlightsAvion {
 				// De cada fila extraemos los datos y los procesamos. 
 				// A continuacion los insertamos en la BD Oracle.
 				System.out.println("Insertando "+c.getString("tailnum")+" - "+c.getString("model")+c.getInteger("year")+" - "+c.getString("manufacturer"));
-				oracle.executeSentence("INSERT INTO AVION(MATRICULA,MODELO,AÑO,FABRICANTE) VALUES (?,?,?,?)", 
+				oracle.executeSentence("INSERT INTO AVION(MATRICULA,MODELO,ANYO,FABRICANTE) VALUES (?,?,?,?)", 
 						c.getString("tailnum"), c.getString("model"), c.getInteger("year"), c.getString("manufacturer"));
 		}
 			
@@ -100,7 +100,7 @@ public class miniFlightsAvion {
 		sb.append("CREATE TABLE AVION(");
 		sb.append("MATRICULA VARCHAR(10) PRIMARY KEY,");
 		sb.append("MODELO VARCHAR(20),");
-		sb.append("AÑO NUMBER(5),");
+		sb.append("ANYO NUMBER(5),");
 		sb.append("FABRICANTE VARCHAR(100)");
 		sb.append(")");
 		o.executeSentence(sb.toString());
