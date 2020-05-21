@@ -12,7 +12,7 @@ import conexionBD.jdbc.ConfiguracionOracle;
  * Esta clase lee datos de la tabla "title" en MySQL, los procesa y 
  * los inserta en la tabla "peliculas_ejemplo" en BD Oracle.
  */
-public class incidencias {
+public class retraso {
 
 	public static void main(String args[]) {
 		ConectorJDBC oracle = null;
@@ -29,20 +29,20 @@ public class incidencias {
 			
 			// Esta llamada solo se tendria que hacer 
 			// si no existe la tabla de peliculas en Oracle
-			crearIncidencia(oracle);
+			crearRetraso(oracle);
 			
 			// Esta llamada solo se tendria que hacer
 			// si nos interesa borrar todo el contenido
 			// de la tabla de peliculas en Oracle (por ejemplo
 			// queremos volver a cargar todos los datos)
-			borrarContenidoTablaIncidencia(oracle);
+			borrarContenidoTablaRetraso(oracle);
 			
 			// Seleccionamos los titulos y el ano de produccion
 			// de las peliculas almacenadas en la tabla
 			// "title" en la BD MySQL.
 			// for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title")) { // Se pega un buen rato insertando
 			// mejor insertamos los 20 primeros resultados de la consulta siguiente...
-			for(Cursor c: mysql.executeQueryAndGetCursor("\n" + 
+			for(Cursor c: oracle.executeQueryAndGetCursor("\n" + 
 					"SELECT t.*, \n" + 
 					"       @rownum := @rownum + 1 AS rank\n" + 
 					"  FROM (select * from\n" + 
@@ -59,7 +59,7 @@ public class incidencias {
 				// De cada fila extraemos los datos y los procesamos. 
 				// A continuacion los insertamos en la BD Oracle.
 				System.out.println("Insertando "+c.getString("rank")+" - "+(c.getString("tipo"))+" - "+(c.getInteger("id")));
-				oracle.executeSentence("INSERT INTO INCIDENCIA(ID,TIPO,VUELO) VALUES (?,?,?)", 
+				oracle.executeSentence("INSERT INTO Retraso(ID,TIPO,VUELO) VALUES (?,?,?)", 
 						c.getInteger("rank"), c.getString("tipo"),c.getInteger("id"));
 		}
 			
@@ -103,25 +103,25 @@ public class incidencias {
 		return oracle;
 	}
 	
-	private static void borrarContenidoTablaIncidencia(ConectorJDBC o) {
+	private static void borrarContenidoTablaRetraso(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("TRUNCATE TABLE INCIDENCIA");
+		sb.append("TRUNCATE TABLE Retraso");
 		o.executeSentence(sb.toString());
 	}
 	
 	private static void borrarTablaDePeliculas(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("DROP TABLE Incidencia");
+		sb.append("DROP TABLE Retraso");
 		o.executeSentence(sb.toString());
 	}
 
-	private static void crearIncidencia(ConectorJDBC o) {
+	private static void crearRetraso(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("CREATE TABLE Incidencia(");
-		sb.append("Id Number(11) PRIMAREY KEY,");
-		sb.append("TIPO VARCHAR(100),");
-		sb.append("vuelo Number(11) ,");
-		sb.append("Foreign key  vuelo references vuelo(idv) ");
+		sb.append("CREATE TABLE Retraso(");
+		sb.append("Id Number(11),");
+		sb.append("Tiempo Number(11),");
+		sb.append("PRIMARY KEY (Id),");
+		sb.append("Foreign key  Id references incidencia(id) ");
 		sb.append(")");
 		o.executeSentence(sb.toString());
 	}
