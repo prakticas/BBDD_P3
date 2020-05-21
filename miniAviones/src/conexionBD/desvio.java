@@ -12,7 +12,7 @@ import conexionBD.jdbc.ConfiguracionOracle;
  * Esta clase lee datos de la tabla "title" en MySQL, los procesa y 
  * los inserta en la tabla "peliculas_ejemplo" en BD Oracle.
  */
-public class retraso {
+public class desvio {
 
 	public static void main(String args[]) {
 		ConectorJDBC oracle = null;
@@ -29,20 +29,21 @@ public class retraso {
 			
 			// Esta llamada solo se tendria que hacer 
 			// si no existe la tabla de peliculas en Oracle
-			crearRetraso(oracle);
+			crearDesvio(oracle);
 			
 			// Esta llamada solo se tendria que hacer
 			// si nos interesa borrar todo el contenido
 			// de la tabla de peliculas en Oracle (por ejemplo
 			// queremos volver a cargar todos los datos)
-			borrarContenidoTablaRetraso(oracle);
+			borrarContenidoTablaDesvio(oracle);
 			
 			// Seleccionamos los titulos y el ano de produccion
 			// de las peliculas almacenadas en la tabla
 			// "title" en la BD MySQL.
 			// for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title")) { // Se pega un buen rato insertando
 			// mejor insertamos los 20 primeros resultados de la consulta siguiente...
-			poblarRetraso(oracle);
+			poblarDesvio1(oracle);
+			poblarDesvio2(oracle);
 			
 			// Finalmente listamos el contenido resultante
 			
@@ -83,37 +84,44 @@ public class retraso {
 		return oracle;
 	}
 	
-	private static void borrarContenidoTablaRetraso(ConectorJDBC o) {
+	private static void borrarContenidoTablaDesvio(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("TRUNCATE TABLE Retraso");
+		sb.append("TRUNCATE TABLE Desvio");
 		o.executeSentence(sb.toString());
 	}
 	
 	private static void borrarTablaDePeliculas(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("DROP TABLE Retraso");
+		sb.append("DROP TABLE Desvio");
 		o.executeSentence(sb.toString());
 	}
-	private static void poblarRetraso(ConectorJDBC o) {
+	private static void poblarDesvio1(ConectorJDBC o) {
 		
-		o.executeSentence("insert into Retraso(id,tiempo) select incidencia.id, auxiliar.carrierDelay\n" + 
+		o.executeSentence("select incidencia.id, auxiliar.div1airport,auxiliar.div1TailNum\n" + 
 				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
-				"ON incidencia.vuelo=auxiliar.id\n" + 
-				"where incidencia.tipo='retrasado'");
-
+				"ON incidencia.vuelo=auxiliar.idv\n" + 
+				"where incidencia.tipo=\"desviado1\";");
+	}
+private static void poblarDesvio2(ConectorJDBC o) {
+		
+		o.executeSentence("select incidencia.id, auxiliar.div2airport,auxiliar.div2TailNum\n" + 
+				"from incidencia \n" + 
+				"inner join \n" + 
+				"auxiliar\n" + 
+				"ON incidencia.vuelo=auxiliar.idv\n" + 
+				"where incidencia.tipo=\"desviado2\";");
 	}
 
-	private static void crearRetraso(ConectorJDBC o) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("CREATE TABLE Retraso(");
-		sb.append("Id Number(11),");
-		sb.append("Tiempo Number(11),");
-		sb.append("PRIMARY KEY (Id),");
-		sb.append("Foreign key(Id) references incidencia(id) ");
-		sb.append(")");
-		o.executeSentence(sb.toString());
+	private static void crearDesvio(ConectorJDBC o) {
+
+		o.executeSentence("CREATE TABLE DESVIO(\n" + 
+				"ID number(11) PRIMARY KEY,\n" + 
+				"FOREIGN KEY(ID) REFERENCES INCIDENCIA(ID) ON DELETE CASCADE,\n" + 
+				"NEWAVION REFERENCES VUELO(IDV) ON DELETE CASCADE,\n" + 
+				"NEWAEREOPUERTO REFERENCES VUELO(IDV) ON DELETE CASCADE\n" + 
+				")");
 	}
 
 	

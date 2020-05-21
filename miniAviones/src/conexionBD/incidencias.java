@@ -46,7 +46,7 @@ public class incidencias {
 					"SELECT t.*, \n" + 
 					"       @rownum := @rownum + 1 AS rank\n" + 
 					"  FROM (select * from\n" + 
-					"((SELECT id,\"retrasado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)a where carrierDelay is not null)\n" + 
+					"((SELECT id,\"retrasado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)a where carrierDelay is not null and carrierDelay>0)\n" + 
 					"UNION\n" + 
 					"(SELECT id,\"cancelado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)b where cancelled=1)\n" + 
 					"union\n" + 
@@ -108,11 +108,6 @@ public class incidencias {
 		o.executeSentence(sb.toString());
 	}
 	
-	private static void borrarTablaDePeliculas(ConectorJDBC o) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("DROP TABLE Incidencia");
-		o.executeSentence(sb.toString());
-	}
 
 	private static void crearIncidencia(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();

@@ -6,16 +6,16 @@ NEWAVION REFERENCES VUELO(IDV) ON DELETE CASCADE,
 NEWAEREOPUERTO REFERENCES VUELO(IDV) ON DELETE CASCADE
 )
 
-select incidecia.id, auxiliar.div1airport,auxiliar.div1TailNum
-from incidecia 
+select incidencia.id, auxiliar.div1airport,auxiliar.div1TailNum
+from incidencia 
 inner join 
 auxiliar
-ON incidecia.vuelo=auxiliar.idv
-where incidecia.tipo="desviado1";
+ON incidencia.vuelo=auxiliar.id
+where incidencia.tipo='desviado1';
 
-select incidecia.id, auxiliar.div2airport,auxiliar.div2TailNum
-from incidecia 
+select incidencia.id, auxiliar.div2airport,auxiliar.div2TailNum
+from incidencia 
 inner join 
 auxiliar
-ON incidecia.vuelo=auxiliar.idv
-where incidecia.tipo="desviado2";
+ON incidencia.vuelo=auxiliar.id
+where incidencia.tipo="desviado2";
