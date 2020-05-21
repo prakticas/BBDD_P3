@@ -96,12 +96,12 @@ public class retraso {
 	}
 	private static void poblarRetraso(ConectorJDBC o) {
 		
-		o.executeSentence("select incidencia.id, auxiliar.carrierDelay\n" + 
+		o.executeSentence("insert into Retraso(id,tiempo) select incidencia.id, auxiliar.carrierDelay\n" + 
 				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
 				"ON incidencia.vuelo=auxiliar.id\n" + 
-				"where incidencia.tipo=\"retraso\"");
+				"where incidencia.tipo='retrasado'");
 	}
 
 	private static void crearRetraso(ConectorJDBC o) {
