@@ -1,3 +1,6 @@
+
+
+
 select incidecia.id, auxiliar.carrierDelay
 from incidecia 
 inner join 
