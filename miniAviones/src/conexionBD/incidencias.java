@@ -118,10 +118,9 @@ public class incidencias {
 	private static void crearIncidencia(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("CREATE TABLE Incidencia(");
-		sb.append("Id Number(11) PRIMAREY KEY,");
+		sb.append("Id Number(11) PRIMARY KEY,");
 		sb.append("TIPO VARCHAR(100),");
-		sb.append("vuelo Number(11) ,");
-		sb.append("Foreign key  vuelo references vuelo(idv) ");
+		sb.append("VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE");
 		sb.append(")");
 		o.executeSentence(sb.toString());
 	}
