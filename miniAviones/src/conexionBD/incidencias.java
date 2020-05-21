@@ -50,9 +50,9 @@ public class incidencias {
 					"UNION\n" + 
 					"(SELECT id,\"cancelado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)b where cancelled=1)\n" + 
 					"union\n" + 
-					"(SELECT id,\"desviado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)c where div1airport is not null and div1airport != \"\")\n" + 
+					"(SELECT id,\"desviado1\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)c where div1airport is not null and div1airport != \"\")\n" + 
 					"union\n" + 
-					"(SELECT id,\"desviado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)d where div2airport is not null and div2airport != \"\")\n" + 
+					"(SELECT id,\"desviado2\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)d where div2airport is not null and div2airport != \"\")\n" + 
 					") f \n" + 
 					"order by id) t, \n" + 
 					"       (SELECT @rownum := 0) r;")) {

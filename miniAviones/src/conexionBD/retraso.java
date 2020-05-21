@@ -42,29 +42,10 @@ public class retraso {
 			// "title" en la BD MySQL.
 			// for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title")) { // Se pega un buen rato insertando
 			// mejor insertamos los 20 primeros resultados de la consulta siguiente...
-			for(Cursor c: oracle.executeQueryAndGetCursor("\n" + 
-					"SELECT t.*, \n" + 
-					"       @rownum := @rownum + 1 AS rank\n" + 
-					"  FROM (select * from\n" + 
-					"((SELECT id,\"retrasado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)a where carrierDelay is not null)\n" + 
-					"UNION\n" + 
-					"(SELECT id,\"cancelado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)b where cancelled=1)\n" + 
-					"union\n" + 
-					"(SELECT id,\"desviado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)c where div1airport is not null and div1airport != \"\")\n" + 
-					"union\n" + 
-					"(SELECT id,\"desviado\" as tipo FROM (SELECT @rownum := @rownum + 1 AS id, t.* FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r)d where div2airport is not null and div2airport != \"\")\n" + 
-					") f \n" + 
-					"order by id) t, \n" + 
-					"       (SELECT @rownum := 0) r;")) {
-				// De cada fila extraemos los datos y los procesamos. 
-				// A continuacion los insertamos en la BD Oracle.
-				System.out.println("Insertando "+c.getString("rank")+" - "+(c.getString("tipo"))+" - "+(c.getInteger("id")));
-				oracle.executeSentence("INSERT INTO Retraso(ID,TIPO,VUELO) VALUES (?,?,?)", 
-						c.getInteger("rank"), c.getString("tipo"),c.getInteger("id"));
-		}
+			poblarRetraso(oracle);
 			
 			// Finalmente listamos el contenido resultante
-			oracle.executeQuery("SELECT * FROM PELICULAS_EJEMPLO");
+			
 			
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
@@ -112,6 +93,15 @@ public class retraso {
 		StringBuffer sb = new StringBuffer();
 		sb.append("DROP TABLE Retraso");
 		o.executeSentence(sb.toString());
+	}
+	private static void poblarRetraso(ConectorJDBC o) {
+		
+		o.executeSentence("select incidecia.id, auxiliar.carrierDelay\n" + 
+				"from incidecia \n" + 
+				"inner join \n" + 
+				"auxiliar\n" + 
+				"ON incidecia.vuelo=auxiliar.idv\n" + 
+				"where incidecia.tipo=\"retraso\"");
 	}
 
 	private static void crearRetraso(ConectorJDBC o) {
