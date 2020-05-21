@@ -2,8 +2,8 @@
 Hector feo 
 - [x] Vuelo
 - [x] Aerolinea
-- [ ] Avión 
-- [ ] Aeropuerto
+- [x] Avión 
+- [x] Aeropuerto
 - [ ] Incidencia
 - [ ] En
 - [ ] Desvío
