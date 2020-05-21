@@ -101,7 +101,7 @@ public class retraso {
 				"inner join \n" + 
 				"auxiliar\n" + 
 				"ON incidencia.vuelo=auxiliar.id\n" + 
-				"where incidencia.tipo=\"retraso\"");
+				"where incidencia.tipo=\'retraso\'");
 	}
 
 	private static void crearRetraso(ConectorJDBC o) {
