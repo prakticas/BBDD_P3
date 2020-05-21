@@ -47,7 +47,7 @@ public class Auxiliar {
 				// A continuacion los insertamos en la BD Oracle.
 				System.out.println("Insertando "+c.getInteger("id"));
 				oracle.executeSentence("INSERT INTO Auxiliar(ID,div1airport,div1TailNum,div2airport,div2TailNum,carrierDelay) VALUES (?,?,?,?,?,?)", 
-						c.getInteger("id"), c.getInteger("div1airport"), c.getInteger("div1TailNum"), c.getInteger("div2airport"), c.getInteger("div2TailNum"), c.getInteger("carrierDelay"));
+						c.getInteger("id"), c.getString("div1airport"), c.getString("div1TailNum"), c.getString("div2airport"), c.getString("div2TailNum"), c.getInteger("carrierDelay"));
 		}
 			
 			// Finalmente listamos el contenido resultante
@@ -95,11 +95,8 @@ public class Auxiliar {
 		o.executeSentence(sb.toString());
 	}
 	
-	private static void borrarTablaDePeliculas(ConectorJDBC o) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("DROP TABLE Auxiliar");
-		o.executeSentence(sb.toString());
-	}
+	
+	
 
 	private static void crearAuxiliar(ConectorJDBC o) {
 		StringBuffer sb = new StringBuffer();

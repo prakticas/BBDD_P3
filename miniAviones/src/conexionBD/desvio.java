@@ -97,21 +97,21 @@ public class desvio {
 	}
 	private static void poblarDesvio1(ConectorJDBC o) {
 		
-		o.executeSentence("select incidecia.id, auxiliar.div1airport,auxiliar.div1TailNum\n" + 
-				"from incidecia \n" + 
+		o.executeSentence("select incidencia.id, auxiliar.div1airport,auxiliar.div1TailNum\n" + 
+				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
-				"ON incidecia.vuelo=auxiliar.idv\n" + 
-				"where incidecia.tipo=\"desviado1\";");
+				"ON incidencia.vuelo=auxiliar.idv\n" + 
+				"where incidencia.tipo=\"desviado1\";");
 	}
 private static void poblarDesvio2(ConectorJDBC o) {
 		
-		o.executeSentence("select incidecia.id, auxiliar.div2airport,auxiliar.div2TailNum\n" + 
-				"from incidecia \n" + 
+		o.executeSentence("select incidencia.id, auxiliar.div2airport,auxiliar.div2TailNum\n" + 
+				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
-				"ON incidecia.vuelo=auxiliar.idv\n" + 
-				"where incidecia.tipo=\"desviado2\";");
+				"ON incidencia.vuelo=auxiliar.idv\n" + 
+				"where incidencia.tipo=\"desviado2\";");
 	}
 
 	private static void crearDesvio(ConectorJDBC o) {
