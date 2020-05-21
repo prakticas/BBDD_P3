@@ -93,11 +93,18 @@ public class desvio {
 
 	private static void poblarDesvio1(ConectorJDBC o) {
 		
-		o.executeSentence("");
+		o.executeSentence("insert into DESVIO(ID,NEWAEREOPUERTO,NEWAVION)\n" + 
+				"select incidencia.id, auxiliar.DIV1AIRPORT,auxiliar.div1TailNum\n" + 
+				"from incidencia \n" + 
+				"inner join \n" + 
+				"auxiliar\n" + 
+				"ON incidencia.vuelo=auxiliar.id\n" + 
+				"where incidencia.tipo='desviado1'");
 	}
 private static void poblarDesvio2(ConectorJDBC o) {
 		
-		o.executeSentence("select incidencia.id, auxiliar.div2airport,auxiliar.div2TailNum\n" + 
+		o.executeSentence("insert into DESVIO(ID,NEWAEREOPUERTO,NEWAVION)\n" + 
+				"select incidencia.id, auxiliar.div2airport,auxiliar.div2TailNum\n" + 
 				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
@@ -110,8 +117,8 @@ private static void poblarDesvio2(ConectorJDBC o) {
 		o.executeSentence("CREATE TABLE DESVIO(\n" + 
 				"ID number(11) PRIMARY KEY,\n" + 
 				"FOREIGN KEY(ID) REFERENCES INCIDENCIA(ID) ON DELETE CASCADE,\n" + 
-				"NEWAVION REFERENCES VUELO(IDV) ON DELETE CASCADE,\n" + 
-				"NEWAEREOPUERTO REFERENCES VUELO(IDV) ON DELETE CASCADE\n" + 
+				"NEWAVION REFERENCES avion(matricula) ON DELETE CASCADE,\n" + 
+				"NEWAEREOPUERTO REFERENCES aeropuerto(ID) ON DELETE CASCADE\n" + 
 				")");
 	}
 
