@@ -90,19 +90,10 @@ public class desvio {
 		o.executeSentence(sb.toString());
 	}
 	
-	private static void borrarTablaDePeliculas(ConectorJDBC o) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("DROP TABLE Desvio");
-		o.executeSentence(sb.toString());
-	}
+
 	private static void poblarDesvio1(ConectorJDBC o) {
 		
-		o.executeSentence("select incidencia.id, auxiliar.div1airport,auxiliar.div1TailNum\n" + 
-				"from incidencia \n" + 
-				"inner join \n" + 
-				"auxiliar\n" + 
-				"ON incidencia.vuelo=auxiliar.idv\n" + 
-				"where incidencia.tipo=\"desviado1\";");
+		o.executeSentence("");
 	}
 private static void poblarDesvio2(ConectorJDBC o) {
 		
@@ -110,8 +101,8 @@ private static void poblarDesvio2(ConectorJDBC o) {
 				"from incidencia \n" + 
 				"inner join \n" + 
 				"auxiliar\n" + 
-				"ON incidencia.vuelo=auxiliar.idv\n" + 
-				"where incidencia.tipo=\"desviado2\";");
+				"ON incidencia.vuelo=auxiliar.id\n" + 
+				"where incidencia.tipo='desviado2'");
 	}
 
 	private static void crearDesvio(ConectorJDBC o) {

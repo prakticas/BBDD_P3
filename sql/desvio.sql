@@ -6,7 +6,8 @@ NEWAVION REFERENCES VUELO(IDV) ON DELETE CASCADE,
 NEWAEREOPUERTO REFERENCES VUELO(IDV) ON DELETE CASCADE
 )
 
-select incidencia.id, auxiliar.div1airport,auxiliar.div1TailNum
+insert into DESVIO(ID,NEWAEREOPUERTO,NEWAVION)
+select incidencia.id, auxiliar.DIV1AIRPORT,auxiliar.div1TailNum
 from incidencia 
 inner join 
 auxiliar
@@ -18,4 +19,4 @@ from incidencia
 inner join 
 auxiliar
 ON incidencia.vuelo=auxiliar.id
-where incidencia.tipo="desviado2";
+where incidencia.tipo='desviado2';
