@@ -102,6 +102,7 @@ public class retraso {
 				"auxiliar\n" + 
 				"ON incidencia.vuelo=auxiliar.id\n" + 
 				"where incidencia.tipo='retrasado'");
+
 	}
 
 	private static void crearRetraso(ConectorJDBC o) {
