@@ -42,12 +42,12 @@ public class miniFlightsVuelos {
 			// "title" en la BD MySQL.
 			// for(Cursor c: mysql.executeQueryAndGetCursor("SELECT title, production_year FROM title")) { // Se pega un buen rato insertando
 			// mejor insertamos los 20 primeros resultados de la consulta siguiente...
-			for(Cursor c: mysql.executeQueryAndGetCursor("SELECT rank,flightDate,origin,dest,carrier,tailNum,carrierDelay FROM (SELECT t.*, @rownum := @rownum + 1 AS rank FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r) o")) {
+			for(Cursor c: mysql.executeQueryAndGetCursor("SELECT rank,flightDate,origin,dest,carrier,tailNum FROM (SELECT t.*, @rownum := @rownum + 1 AS rank FROM miniFlights.flights200810 t,(SELECT @rownum := 0) r) o")) {
 				// De cada fila extraemos los datos y los procesamos. 
 				// A continuacion los insertamos en la BD Oracle.
-				System.out.println("Insertando "+" - "+c.getInteger("rank")+" - "+ c.getString("flightDate")+ " - "+c.getString("origin")+" - "+ c.getString("dest")+ " - "+c.getString("carrier")+" - "+ c.getString("tailNum")+" - "+ c.getInteger("carrierDelay"));
+				System.out.println("Insertando "+" - "+c.getInteger("rank")+" - "+ c.getString("flightDate")+ " - "+c.getString("origin")+" - "+ c.getString("dest")+ " - "+c.getString("carrier")+" - "+ c.getString("tailNum"));
 				oracle.executeSentence("INSERT INTO VUELO(IDV,FECHA,ORIGEN,DESTINO,AEROLINEA,TRANSPORTE,RETRASO) VALUES (?,?,?,?,?,?,?)", 
-						c.getInteger("rank"), c.getString("flightDate"), c.getString("origin"), c.getString("dest"), c.getString("carrier"), c.getString("tailNum"), c.getInteger("carrierDelay"));
+						c.getInteger("rank"), c.getString("flightDate"), c.getString("origin"), c.getString("dest"), c.getString("carrier"), c.getString("tailNum"));
 		}
 			
 			// Finalmente listamos el contenido resultante
@@ -103,8 +103,7 @@ public class miniFlightsVuelos {
 		sb.append("ORIGEN REFERENCES AEROPUERTO(ID) ON DELETE CASCADE,");
 		sb.append("DESTINO REFERENCES AEROPUERTO(ID) ON DELETE CASCADE,");
 		sb.append("AEROLINEA REFERENCES AEROLINEA(ID) ON DELETE CASCADE,");
-		sb.append("TRANSPORTE REFERENCES AVION(MATRICULA) ON DELETE CASCADE,");
-		sb.append("RETRASO number(4)");
+		sb.append("TRANSPORTE REFERENCES AVION(MATRICULA) ON DELETE CASCADE");
 		sb.append(")");
 		o.executeSentence(sb.toString());
 	}
