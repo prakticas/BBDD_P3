@@ -78,6 +78,14 @@ on aerolinea.id = t.aerolinea
 ;
 
 
+/**media retraso 5 estados con menos vuelos**/
+
+/**mayor tipo de incidencia por tipo de avion **/
+
+
+/** aeropuertos donde mas se va por aerolinea en vuelos sin incidencias **/
+
+
 
 
 
