@@ -102,7 +102,30 @@ from
 )
 where rnk=1;
 
-/** aeropuertos donde mas se va por aerolinea en vuelos sin incidencias **/
+/** destinos donde mas se va por aerolinea sin contar vuelos cancelados **/
+select aerolinea.nombre as aerolinea, aeropuerto.nombre as aereopuerto
+from 
+(   select aerolinea,destino, RANK() over (partition by aerolinea order by  count(destino)  DESC) as rnk
+    from(
+        select vuelo.idv,aerolinea,destino  /**vuelos sin cancelaciones**/
+        from vuelo
+        minus
+        select  vuelo.idv,aerolinea, destino
+        from vuelo
+        inner join 
+        incidencia
+        on vuelo.idv = incidencia.vuelo
+        where tipo='cancelado'
+    )
+    group by aerolinea,destino
+    order by aerolinea,rnk
+) t
+inner join aerolinea 
+on aerolinea.id = t.aerolinea
+inner join aeropuerto
+on aeropuerto.id = t.destino
+where rnk =1
+;
 
 
 
