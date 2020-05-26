@@ -71,7 +71,7 @@ on aerolinea.id = t.aerolinea
 ;
 
 
-/**media retraso 5 estados con menos vuelos**/
+/**Consulta no trivial 1: media retraso 5 estados con menos vuelos**/
 SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM 
 (SELECT Vuelo.origen, RT.tiempo
     FROM (SELECT Incidencia.vuelo, Retraso.tiempo from Retraso JOIN Incidencia ON Incidencia.id=Retraso.id) RT 
@@ -86,7 +86,7 @@ SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM
           ON AEROPUERTO.ESTADO=mv.ESTADO group by AEROPUERTO.Estado;
 
 
-/**mayor tipo de incidencia por tipo de avion **/
+/**Consulta no trivial 2: mayor tipo de incidencia por tipo de avion **/
 
 select modelo, tipo, num 
 from
@@ -106,7 +106,7 @@ from
 )
 where rnk=1;
 
-/** destinos donde mas se va por aerolinea sin contar vuelos cancelados **/
+/**Consulta no trivial 3: destinos donde mas se va por aerolinea sin contar vuelos cancelados **/
 select aerolinea.nombre as aerolinea, aeropuerto.nombre as aereopuerto
 from 
 (   select aerolinea,destino, RANK() over (partition by aerolinea order by  count(destino)  DESC) as rnk
