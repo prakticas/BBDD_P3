@@ -30,6 +30,20 @@ FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
         FROM (SELECT jdesv.Estado, jdesv.desv*100/jtot.tot as PORCENTAJE 
             FROM (SELECT Estado,COUNT(*) as desv FROM AEROPUERTO join desvio ON Aeropuerto.id=desvio.newaeropuerto GROUP BY Estado) jdesv,
             (SELECT COUNT(*) as tot FROM vuelo) jtot)) where rnk <=3;
+
+select * from(
+    SELECT Estado, rnk 
+FROM 
+(   SELECT Estado,  RANK() over (order by desv DESC) as rnk
+    FROM (
+            SELECT Estado,COUNT(*) as desv 
+            FROM AEROPUERTO 
+            join desvio 
+            ON Aeropuerto.id=desvio.newaeropuerto GROUP BY Estado) jdesv
+)
+)
+where rnk<=3
+  ;
 /**3**/
 
 select r.org as aeropuerto, t.aerolinea as aerolinea
