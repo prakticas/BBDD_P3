@@ -1,4 +1,4 @@
-/**tres compañias aereas mas puntuales*/
+/**1*/
 select aerolinea.nombre,t2.rnk
 from (select aerolinea, RANK()over(order by por ASC) as rnk
     from (select count(tipo)/ count(*) as por,  vuelo.aerolinea  as aerolinea
@@ -17,13 +17,14 @@ on aerolinea.id=t2.aerolinea
 where t2.rnk <=3
 ;
 /**2**/
+/**En esta consulta hacemos el porcentaje**/
 SELECT Estado, PORCENTAJE, rnk 
 FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
         FROM (SELECT jdesv.Estado, jdesv.desv*100/jtot.tot as PORCENTAJE 
             FROM (SELECT Estado,COUNT(*) as desv FROM AEROPUERTO join desvio ON Aeropuerto.id=desvio.newaeropuerto GROUP BY Estado) jdesv,
             (SELECT COUNT(*) as tot FROM vuelo) jtot)) where rnk <=3;
 
-
+/**En esta consulta no hacemos el porcentaje**/
 select * from(
     SELECT Estado, rnk 
 FROM 
