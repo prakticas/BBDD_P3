@@ -47,7 +47,7 @@ where rnk<=3
 ;
 /**3**/
 
-select r.org as aeropuerto, t.aerolinea as aerolinea
+select distinct aerolinea.nombre as aerolinea
 from
 (select org 
 from
@@ -72,6 +72,9 @@ UNION
 select aerolinea, destino as aero from vuelo)
 ) t
 on t.aero = r.org
+inner join 
+aerolinea 
+on aerolinea.id = t.aerolinea
 ;
 
 
