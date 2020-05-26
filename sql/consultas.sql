@@ -79,7 +79,18 @@ on aerolinea.id = t.aerolinea
 
 
 /**media retraso 5 estados con menos vuelos**/
-
+SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM 
+(SELECT Vuelo.origen, RT.tiempo
+    FROM (SELECT Incidencia.vuelo, Retraso.tiempo from Retraso JOIN Incidencia ON Incidencia.id=Retraso.id) RT 
+        JOIN VUELO 
+            ON Rt.vuelo=Vuelo.idv) VI
+    JOIN AEROPUERTO ON AEROPUERTO.id=VI.origen 
+          JOIN (SELECT ESTADO
+                FROM (SELECT ESTADO, RANK() over (order by vuelosXest ASC) as rank
+                    from (SELECT ESTADO, COUNT(*) as vuelosXest 
+                          FROM AEROPUERTO join vuelo 
+                            ON AEROPUERTO.id=vuelo.origen Group by estado)) where rank <= 5) mv 
+          ON AEROPUERTO.ESTADO=mv.ESTADO group by AEROPUERTO.Estado;
 
 
 /**mayor tipo de incidencia por tipo de avion **/
