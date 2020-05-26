@@ -80,8 +80,27 @@ on aerolinea.id = t.aerolinea
 
 /**media retraso 5 estados con menos vuelos**/
 
+
+
 /**mayor tipo de incidencia por tipo de avion **/
 
+select modelo, tipo, num 
+from
+(select modelo, tipo, num, RANK() over (partition by modelo order by num DESC) as rnk from
+        (select avuel.modelo as modelo, tipo, count(tipo) as num
+        from (select vuelo,tipo
+                from incidencia
+            ) inc
+        join 
+        (select idv, modelo 
+        from avion 
+        join 
+        vuelo 
+        on avion.matricula=vuelo.transporte) avuel 
+        on avuel.idv= inc.vuelo
+        group by tipo, avuel.modelo)
+)
+where rnk=1;
 
 /** aeropuertos donde mas se va por aerolinea en vuelos sin incidencias **/
 
