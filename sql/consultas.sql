@@ -1,4 +1,4 @@
-/**3 compañias aereas mas puntuales*/
+/**tres compañias aereas mas puntuales*/
 select aerolinea.nombre,t2.rnk
 from (select aerolinea, RANK()over(order by por ASC) as rnk
     from (select count(tipo)/ count(*) as por,  vuelo.aerolinea  as aerolinea
@@ -20,17 +20,9 @@ where t2.rnk <=3
 SELECT Estado, PORCENTAJE, rnk 
 FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
         FROM (SELECT jdesv.Estado, jdesv.desv*100/jtot.tot as PORCENTAJE 
-            FROM (SELECT Estado,COUNT(*) as desv FROM AEROPUERTO join desvio ON Aeropuerto.id=desvio.newaeropuerto GROUP BY Estado) jdesv
-            JOIN
-            (SELECT Estado,COUNT(*) as tot FROM AEROPUERTO join vuelo ON Aeropuerto.id=vuelo.origen GROUP BY Estado) jtot
-            ON  jdesv.Estado=jtot.estado)) where rnk <=3;
-
-
-SELECT Estado, PORCENTAJE, rnk 
-FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
-        FROM (SELECT jdesv.Estado, jdesv.desv*100/jtot.tot as PORCENTAJE 
             FROM (SELECT Estado,COUNT(*) as desv FROM AEROPUERTO join desvio ON Aeropuerto.id=desvio.newaeropuerto GROUP BY Estado) jdesv,
             (SELECT COUNT(*) as tot FROM vuelo) jtot)) where rnk <=3;
+
 
 select * from(
     SELECT Estado, rnk 
@@ -86,10 +78,10 @@ SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM
             ON Rt.vuelo=Vuelo.idv) VI
     JOIN AEROPUERTO ON AEROPUERTO.id=VI.origen 
           JOIN (SELECT ESTADO
-                FROM (SELECT ESTADO, RANK() over (order by vuelosXest ASC) as rank
+                FROM (SELECT ESTADO, RANK() over (order by vuelosXest ASC) as rnk
                     from (SELECT ESTADO, COUNT(*) as vuelosXest 
                           FROM AEROPUERTO join vuelo 
-                            ON AEROPUERTO.id=vuelo.origen Group by estado)) where rank <= 5) mv 
+                            ON AEROPUERTO.id=vuelo.origen Group by estado)) where rnk <= 5) mv 
           ON AEROPUERTO.ESTADO=mv.ESTADO group by AEROPUERTO.Estado;
 
 
