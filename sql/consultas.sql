@@ -24,7 +24,8 @@ FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
             JOIN
             (SELECT Estado,COUNT(*) as tot FROM AEROPUERTO join vuelo ON Aeropuerto.id=vuelo.origen GROUP BY Estado) jtot
             ON  jdesv.Estado=jtot.estado)) where rnk <=3;
-              
+
+
 SELECT Estado, PORCENTAJE, rnk 
 FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
         FROM (SELECT jdesv.Estado, jdesv.desv*100/jtot.tot as PORCENTAJE 
@@ -43,29 +44,23 @@ FROM
 )
 )
 where rnk<=3
-  ;
+;
 /**3**/
 
 select r.org as aeropuerto, t.aerolinea as aerolinea
 from
 (select org 
 from
-    (select org, RANK()over(order by por DESC) as rnk
+    (select org, RANK()over(order by cancelados DESC) as rnk
     from 
-        (select  tot.origen as org, cancelados/totales as por
-        from
-        (select vuelo.origen as org, count(*) as cancelados
-        from
-            vuelo 
-        inner join
-                (select * from incidencia where tipo='cancelado') inc
-        on vuelo.idv= inc.vuelo
-        group by vuelo.origen) can
-        inner join 
-        (select origen ,count(*) as totales 
-        from vuelo 
-        group by origen) tot
-        on tot.origen=can.org)
+            ( /**cancelados por aereopuerto**/
+            select vuelo.origen as org, count(*) as cancelados
+            from vuelo 
+            inner join
+            (select * from incidencia where tipo='cancelado') inc
+            on vuelo.idv= inc.vuelo
+            group by vuelo.origen
+            ) can
     )
 where rnk<=10
 ) r
