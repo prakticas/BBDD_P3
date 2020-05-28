@@ -16,6 +16,25 @@ inner join aerolinea
 on aerolinea.id=t2.aerolinea
 where t2.rnk <=3
 ;
+
+/**tabla con particiones**/
+select aerolinea.nombre,t2.rnk
+from (select aerolinea, RANK()over(order by por ASC) as rnk
+    from (select count(tipo)/ count(*) as por,  vuelo.aerolinea  as aerolinea
+        from (select vuelo,tipo
+                from incidencia2
+                 where tipo='retrasado'
+            ) inc
+        right join 
+        vuelo 
+        on vuelo.idv= inc.vuelo
+        group by vuelo.aerolinea
+        ) t1
+    )t2
+inner join aerolinea
+on aerolinea.id=t2.aerolinea
+where t2.rnk <=3
+;
 /**2**/
 /**En esta version de la consulta 2 hacemos el porcentaje**/
 SELECT Estado, PORCENTAJE, rnk 

@@ -1,10 +1,19 @@
 
-
-PARTITION BY LIST (tipo)
-(PARTITION q1_cancelado ('cancelado')
-PARTITION q2_retrasado ('retrasado')
-PARTITION q3_desviado ('desviado')
+CREATE TABLE Incidencia2(
+	Id Number(11) PRIMARY KEY,
+		TIPO VARCHAR(100),
+		VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE)
+		PARTITION BY LIST (tipo)
+		(PARTITION q1_cancelado VALUES ('cancelado'),
+		PARTITION q2_retrasado VALUES('retrasado'),
+			PARTITION q3_desviado VALUES ('desviado')
 );
+INSERT INTO Incidencia2(ID,VUELO,Tipo)
+select id,vuelo, tipo
+from 
+incidencia
+natural join 
+retraso;
 
 CREATE INDEX desv_aer ON Desvio(newaeropuerto);
 CREATE INDEX inc_vuel ON incidencia(vuelo);
