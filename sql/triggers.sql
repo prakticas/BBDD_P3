@@ -35,8 +35,15 @@ BEGIN
   RAISE_APPLICATION_ERROR(-20000, 'No se pueden borrar Retraso, borre desde incidencia');
 END NOBORRARRET;
 /
-/**Mantenimiento tabla INCRET (es un join)**/
 
+/**Mantenimiento tabla INCRET (es un join)**/
+CREATE or REPLACE TRIGGER UPDINCRET
+AFTER UPDATE ON RETRASO
+FOR EACH ROW
+BEGIN
+  INSERT INTO INCRET(ID,Tiempo) values (:new.ID,:new.Tiempo);
+END UPDINCRET;
+/
 
 /**solo hace falta borrar al deletar de retraso, ya que de incidencia esta en cascade*/
 
