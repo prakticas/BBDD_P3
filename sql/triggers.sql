@@ -35,7 +35,7 @@ BEGIN
   RAISE_APPLICATION_ERROR(-20000, 'No se pueden borrar Retraso, borre desde incidencia');
 END NOBORRARRET;
 /
-/**Mantenimiento tabla INCRET**/
+/**Mantenimiento tabla INCRET (es un join)**/
 
 CREATE or REPLACE TRIGGER DELINCRET
 AFTER DELETE ON RETRASO
@@ -66,7 +66,7 @@ en las dos tablas y se puede hacer join de dicha fila*/
 /**solo hace falta borrar al deletar de retraso, ya que de incidencia esta en cascade*/
 
 
-/**Mantenimiento tabla INCDESV**/
+/**Mantenimiento tabla INCDESV (es un join)**/
 
 CREATE or REPLACE TRIGGER DELINCDESV
 AFTER DELETE ON DESVIO

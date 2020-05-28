@@ -1,4 +1,5 @@
 
+/**particion de incidencia por tipo**/
 CREATE TABLE Incidencia2(
 	Id Number(11) PRIMARY KEY,
 		TIPO VARCHAR(100),
@@ -8,16 +9,17 @@ CREATE TABLE Incidencia2(
 		PARTITION q2_retrasado VALUES('retrasado'),
 			PARTITION q3_desviado VALUES ('desviado')
 );
+
 INSERT INTO Incidencia2(ID,VUELO,Tipo)
 select id,vuelo, tipo
 from 
 incidencia
 natural join 
 retraso;
-
+/**indices utiles**/
 CREATE INDEX desv_aer ON Desvio(newaeropuerto);
 CREATE INDEX inc_vuel ON incidencia(vuelo);
-
+/**join precualculado incidencia yretraso**/
 CREATE TABLE INCRET (
 	Id Number(11),
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
@@ -32,7 +34,7 @@ from
 incidencia
 natural join 
 retraso;
-
+/**join precualculado incidencia y desvio**/
 CREATE TABLE INCDESV (
 	Id Number(11),
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
