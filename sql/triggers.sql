@@ -63,3 +63,37 @@ END INSINCRET;
 en incidencia (clave de retraso en delete cascade), por lo que existe esta id
 en las dos tablas y se puede hacer join de dicha fila*/
 
+/**solo hace falta borrar al deletar de retraso, ya que de incidencia esta en cascade*/
+
+
+/**Mantenimiento tabla INCDESV**/
+
+CREATE or REPLACE TRIGGER DELINCDESV
+AFTER DELETE ON DESVIO
+FOR EACH ROW
+BEGIN
+  DELETE from INCDESV where id=:old.id;
+END DELINCDESV;
+/
+/**solo hace falta borrar al deletar de desvio, ya que de incidencia esta en cascade*/
+
+CREATE or REPLACE TRIGGER INSINCDESV
+AFTER INSERT ON DESVIO
+FOR EACH ROW
+BEGIN
+INSERT INTO INCDESV(ID,VUELO,NEWAVION,NEWAEROPUERTO)
+select id,vuelo, NEWAVION,NEWAEREOPUERTO
+from 
+incidencia
+natural join 
+Desvio
+where id=:old.id ;
+END INSINCDESV;
+/
+/*solo se mira al incluir en desvio ya que obligatoriamnte existe
+en incidencia (clave de retraso en delete cascade), por lo que existe esta id
+en las dos tablas y se puede hacer join de dicha fila*/
+
+/**solo hace falta borrar al deletar de desvio, ya que de incidencia esta en cascade*/
+
+

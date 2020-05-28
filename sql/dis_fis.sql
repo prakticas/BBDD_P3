@@ -27,9 +27,15 @@ retraso;
 CREATE TABLE INCDESV (
 	Id Number(11),
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
-	Tiempo Number(11),
    	PRIMARY KEY (Id),
-	Foreign key(Id) references incidencia(id) ON DELETE CASCADE
+	Foreign key(Id) references incidencia(id) ON DELETE CASCADE,
 	NEWAVION REFERENCES avion(matricula) ON DELETE CASCADE,
 	NEWAEROPUERTO REFERENCES aeropuerto(ID) ON DELETE CASCADE
 );
+
+INSERT INTO INCDESV(ID,VUELO,NEWAVION,NEWAEROPUERTO)
+select id,vuelo, NEWAVION,NEWAEREOPUERTO
+from 
+incidencia
+natural join 
+Desvio;

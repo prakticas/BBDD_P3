@@ -95,7 +95,7 @@ SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM
 /*version con tabla join precalculado**/
           SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM 
 (SELECT Vuelo.origen, RT.tiempo
-    FROM (SELECT vuelo, tiempo from ********************) RT 
+    FROM (SELECT vuelo, tiempo from INCDESV) RT 
         JOIN VUELO 
             ON Rt.vuelo=Vuelo.idv) VI
     JOIN AEROPUERTO ON AEROPUERTO.id=VI.origen 
