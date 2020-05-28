@@ -41,7 +41,7 @@ CREATE or REPLACE TRIGGER UPDINCRET
 AFTER UPDATE ON RETRASO
 FOR EACH ROW
 BEGIN
-  UPDATE INCRET SET ID=:new.ID, Tiempo=:new.Tiempo;
+  UPDATE INCRET SET Tiempo=:new.Tiempo WHERE ID=:old.ID;
 END UPDINCRET;
 /
 
@@ -68,6 +68,14 @@ en las dos tablas y se puede hacer join de dicha fila*/
 
 
 /**Mantenimiento tabla INCDESV (es un join)**/
+
+CREATE or REPLACE TRIGGER UPDINCDESV
+AFTER UPDATE ON DESVIO
+FOR EACH ROW
+BEGIN
+  UPDATE INCDESV SET NEWAVION=:new.NEWAVION, NEWAEROPUERTO=:new.NEWAEROPUERTO WHERE ID=:old.ID;
+END UPDINCDESV;
+/
 
 /**solo hace falta borrar al deletar de desvio, ya que de incidencia esta en cascade*/
 
