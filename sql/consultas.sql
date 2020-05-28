@@ -39,8 +39,11 @@ FROM
 where rnk<=3
 ;
 /**3**/
-
-select distinct aerolinea.nombre as aerolinea
+SELECT aerolinea
+from 
+(select aerolinea,RANK()over (order by num DESC) as rnk
+from 
+(select aerolinea.nombre as aerolinea, count(*) as num
 from
 (select org 
 from
@@ -68,7 +71,10 @@ on t.aero = r.org
 inner join 
 aerolinea 
 on aerolinea.id = t.aerolinea
+GROUP BY  aerolinea.nombre))
+where rnk =1
 ;
+
 
 
 /**Consulta no trivial 1: media retraso 5 estados con menos vuelos**/
