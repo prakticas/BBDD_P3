@@ -26,6 +26,9 @@ on aerolinea.id=t2.aerolinea
 where t2.rnk <=3
 ;
 
+SELECT PLAN_TABLE_OUTPUT FROM
+TABLE(DBMS_XPLAN.DISPLAY());
+
 EXPLAIN PLAN FOR select * from(
     SELECT Estado, rnk 
 FROM 
@@ -39,6 +42,9 @@ FROM
 )
 where rnk<=3
 ;
+      
+SELECT PLAN_TABLE_OUTPUT FROM
+TABLE(DBMS_XPLAN.DISPLAY());
 
 EXPLAIN PLAN FOR select distinct aerolinea.nombre as aerolinea
 from
@@ -69,4 +75,6 @@ inner join
 aerolinea 
 on aerolinea.id = t.aerolinea
 ;
-
+      
+SELECT PLAN_TABLE_OUTPUT FROM
+TABLE(DBMS_XPLAN.DISPLAY());
