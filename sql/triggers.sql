@@ -35,3 +35,26 @@ BEGIN
   RAISE_APPLICATION_ERROR(-20000, 'No se pueden borrar Retraso, borre desde incidencia');
 END NOBORRARRET;
 /
+/**Mantenimiento tabla INCRET**/
+CREATE or REPLACE TRIGGER DELINCRET
+AFTER DELETE ON RETRASO
+FOR EACH ROW
+BEGIN
+  DELETE from INCRET where id=:old.id;
+END DELINCRET;
+/
+
+CREATE or REPLACE TRIGGER INSINCRET
+AFTER INSERT ON RETRASO
+FOR EACH ROW
+BEGIN
+  INSERT INTO INCRET(ID,VUELO,Tiempo)
+  select id,vuelo, Tiempo
+  from 
+  incidencia
+  natural join 
+  retraso
+  where id=:old.id ;
+END INSINCRET;
+/
+

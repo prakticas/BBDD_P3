@@ -14,7 +14,7 @@ CREATE TABLE INCRET (
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
     Tiempo Number(11),
     PRIMARY KEY (Id),
-	Foreign key(Id) references incidencia(id)
+	Foreign key(Id) references incidencia(id) ON DELETE CASCADE
 );
 
 INSERT INTO INCRET(ID,VUELO,Tiempo)
