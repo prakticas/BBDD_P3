@@ -7,3 +7,4 @@ PARTITION q3_desviado ('desviado')
 );
 
 CREATE INDEX desv_aer ON Desvio(newaeropuerto);
+CREATE INDEX inc_vuel ON incidencia(vuelo);
