@@ -11,7 +11,7 @@ WHEN (new.tipo = 'retrasado')
 END NEWRETRASO;
 /
 
-INSERT INTO INCIDENCIA (id,tipo,vuelo) values (123345,'desviado1',31398)
+INSERT INTO INCIDENCIA (id,tipo,vuelo) values (123458,'desviado2',31398)
 
 CREATE or REPLACE TRIGGER NEWDESVIO
 AFTER INSERT ON INCIDENCIA
