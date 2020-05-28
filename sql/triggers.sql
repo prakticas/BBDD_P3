@@ -20,3 +20,18 @@ WHEN ((new.tipo = 'desviado1') OR (new.tipo = 'desviado2'))
   DBMS_OUTPUT.put_line ('Ahora se debería especificar el nuevo avion y nuevo aeropuerto');
 END NEWDESVIO;
 /
+
+/**NO BORRAR DE DESVIO**/
+CREATE or REPLACE TRIGGER NOBORRARDES
+BEFORE DELETE ON DESVIO
+BEGIN
+  RAISE_APPLICATION_ERROR(-20000, 'No se pueden borrar Desvios, borre desde incidencia');
+END NOBORRARDES;
+/
+/**NO BORRAR DE RETRASO**/
+CREATE or REPLACE TRIGGER NOBORRARRET
+BEFORE DELETE ON RETRASO
+BEGIN
+  RAISE_APPLICATION_ERROR(-20000, 'No se pueden borrar Retraso, borre desde incidencia');
+END NOBORRARRET;
+/
