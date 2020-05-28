@@ -37,13 +37,7 @@ END NOBORRARRET;
 /
 /**Mantenimiento tabla INCRET (es un join)**/
 
-CREATE or REPLACE TRIGGER DELINCRET
-AFTER DELETE ON RETRASO
-FOR EACH ROW
-BEGIN
-  DELETE from INCRET where id=:old.id;
-END DELINCRET;
-/
+
 /**solo hace falta borrar al deletar de retraso, ya que de incidencia esta en cascade*/
 
 CREATE or REPLACE TRIGGER INSINCRET
@@ -68,13 +62,6 @@ en las dos tablas y se puede hacer join de dicha fila*/
 
 /**Mantenimiento tabla INCDESV (es un join)**/
 
-CREATE or REPLACE TRIGGER DELINCDESV
-AFTER DELETE ON DESVIO
-FOR EACH ROW
-BEGIN
-  DELETE from INCDESV where id=:old.id;
-END DELINCDESV;
-/
 /**solo hace falta borrar al deletar de desvio, ya que de incidencia esta en cascade*/
 
 CREATE or REPLACE TRIGGER INSINCDESV

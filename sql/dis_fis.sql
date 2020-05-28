@@ -25,7 +25,7 @@ CREATE TABLE INCRET (
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
     Tiempo Number(11),
     PRIMARY KEY (Id),
-	Foreign key(Id) references incidencia(id) ON DELETE CASCADE
+	Foreign key(Id) references retraso(id) ON DELETE CASCADE
 );
 
 INSERT INTO INCRET(ID,VUELO,Tiempo)
@@ -39,7 +39,7 @@ CREATE TABLE INCDESV (
 	Id Number(11),
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
    	PRIMARY KEY (Id),
-	Foreign key(Id) references incidencia(id) ON DELETE CASCADE,
+	Foreign key(Id) references desvio(id) ON DELETE CASCADE,
 	NEWAVION REFERENCES avion(matricula) ON DELETE CASCADE,
 	NEWAEROPUERTO REFERENCES aeropuerto(ID) ON DELETE CASCADE
 );
