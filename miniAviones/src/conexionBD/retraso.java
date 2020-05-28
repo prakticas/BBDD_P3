@@ -111,7 +111,7 @@ public class retraso {
 		sb.append("Id Number(11),");
 		sb.append("Tiempo Number(11),");
 		sb.append("PRIMARY KEY (Id),");
-		sb.append("Foreign key(Id) references incidencia(id) ");
+		sb.append("Foreign key(Id) references incidencia(id)  ON DELETE CASCADE ");
 		sb.append(")");
 		o.executeSentence(sb.toString());
 	}
