@@ -36,6 +36,7 @@ BEGIN
 END NOBORRARRET;
 /
 /**Mantenimiento tabla INCRET**/
+
 CREATE or REPLACE TRIGGER DELINCRET
 AFTER DELETE ON RETRASO
 FOR EACH ROW
@@ -43,6 +44,7 @@ BEGIN
   DELETE from INCRET where id=:old.id;
 END DELINCRET;
 /
+/**solo hace falta borrar al deletar de retraso, ya que de incidencia esta en cascade*/
 
 CREATE or REPLACE TRIGGER INSINCRET
 AFTER INSERT ON RETRASO
@@ -57,4 +59,7 @@ BEGIN
   where id=:old.id ;
 END INSINCRET;
 /
+/*solo se mira al incluir en retraso ya que obligatoriamnte existe
+en incidencia (clave de retraso en delete cascade), por lo que existe esta id
+en las dos tablas y se puede hacer join de dicha fila*/
 
