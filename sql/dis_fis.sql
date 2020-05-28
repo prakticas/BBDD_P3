@@ -24,7 +24,7 @@ incidencia
 natural join 
 retraso;
 
-CREATE TABLE INCRET (
+CREATE TABLE INCDESV (
 	Id Number(11),
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
 	Tiempo Number(11),
