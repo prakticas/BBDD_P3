@@ -88,9 +88,9 @@ where rnk<=10
 inner join 
 (
 select distinct * from (/** contamos una única vez un aeropuerto por compañia**/
-select aerolinea, origen as aero from vuelo
-UNION 
-select aerolinea, destino as aero from vuelo)
+    select aerolinea, origen as aero from vuelo
+    UNION 
+    select aerolinea, destino as aero from vuelo)
 ) t
 on t.aero = r.org
 inner join 
