@@ -1,4 +1,6 @@
-/**1*/
+/*****/
+/**1**/
+/*****/
 select aerolinea.nombre,t2.rnk
 from (select aerolinea, RANK()over(order by por ASC) as rnk
     from (select count(tipo)/ count(*) as por,  vuelo.aerolinea  as aerolinea
@@ -17,7 +19,7 @@ on aerolinea.id=t2.aerolinea
 where t2.rnk <=3
 ;
 
-/**tabla con particiones**/
+/**1 version  particiones**/
 select aerolinea.nombre,t2.rnk
 from (select aerolinea, RANK()over(order by por ASC) as rnk
     from (select count(tipo)/ count(*) as por,  vuelo.aerolinea  as aerolinea
@@ -35,7 +37,9 @@ inner join aerolinea
 on aerolinea.id=t2.aerolinea
 where t2.rnk <=3
 ;
+/*****/
 /**2**/
+/*****/
 /**En esta version de la consulta 2 hacemos el porcentaje**/
 SELECT Estado, PORCENTAJE, rnk 
 FROM (SELECT Estado, PORCENTAJE, RANK() over (order by PORCENTAJE DESC) as rnk
@@ -57,7 +61,9 @@ FROM
 )
 where rnk<=3
 ;
+/*****/
 /**3**/
+/*****/
 SELECT aerolinea
 from 
 (select aerolinea,RANK()over (order by num DESC) as rnk
@@ -95,8 +101,9 @@ where rnk =1
 ;
 
 
-
+/*****/
 /**Consulta no trivial 1: media retraso 5 estados con menos vuelos**/
+/*****/
 SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM 
 (SELECT Vuelo.origen, RT.tiempo
     FROM (SELECT incidencia.vuelo, retraso.tiempo from Retraso JOIN Incidencia ON Incidencia.id=Retraso.id) RT 
@@ -112,6 +119,7 @@ SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM
 
 
 /*version con tabla join precalculado**/
+
           SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM 
 (SELECT Vuelo.origen, RT.tiempo
     FROM (SELECT vuelo, tiempo from INCRET) RT 
@@ -126,9 +134,9 @@ SELECT AEROPUERTO.ESTADO, AVG(VI.Tiempo) FROM
           ON AEROPUERTO.ESTADO=mv.ESTADO group by AEROPUERTO.Estado;
 
 
-
+/*****/
 /**Consulta no trivial 2: mayor tipo de incidencia por tipo de avion **/
-
+/*****/
 select modelo, tipo, num 
 from
 (select modelo, tipo, num, RANK() over (partition by modelo order by num DESC) as rnk from
@@ -147,7 +155,9 @@ from
 )
 where rnk=1;
 
+/*****/
 /**Consulta no trivial 3: destinos donde mas se va por aerolinea sin contar vuelos cancelados **/
+/*****/
 select aerolinea.nombre as aerolinea, aeropuerto.nombre as aereopuerto
 from 
 (   select aerolinea,destino, RANK() over (partition by aerolinea order by  count(destino)  DESC) as rnk

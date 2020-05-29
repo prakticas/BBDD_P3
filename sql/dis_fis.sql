@@ -16,10 +16,12 @@ from
 incidencia
 natural join 
 retraso;
+
 /**indices utiles**/
 CREATE INDEX desv_aer ON Desvio(newaeropuerto);
 CREATE INDEX inc_vuel ON incidencia(vuelo);
-/**join precualculado incidencia yretraso**/
+
+/**join precualculado incidencia y retraso**/
 CREATE TABLE INCRET (
 	Id Number(11),
 	VUELO REFERENCES VUELO(IDV) ON DELETE CASCADE,
@@ -34,6 +36,7 @@ from
 incidencia
 natural join 
 retraso;
+
 /**join precualculado incidencia y desvio**/
 CREATE TABLE INCDESV (
 	Id Number(11),

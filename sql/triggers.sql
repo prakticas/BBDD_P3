@@ -37,9 +37,8 @@ END NOBORRARRET;
 /
 /**Mantenimiento tabla INCRET (es un join)**/
 
-
-/**solo hace falta borrar al deletar de retraso, ya que de incidencia esta en cascade*/
-
+/* no hace falta borrar de esta tabla, delete casacade 
+ lo hara por nosotros*/
 CREATE or REPLACE TRIGGER INSINCRET
 AFTER INSERT ON RETRASO
 FOR EACH ROW
@@ -62,7 +61,8 @@ en las dos tablas y se puede hacer join de dicha fila*/
 
 /**Mantenimiento tabla INCDESV (es un join)**/
 
-/**solo hace falta borrar al deletar de desvio, ya que de incidencia esta en cascade*/
+/* no hace falta borrar de esta tabla, delete casacade 
+ lo hara por nosotros*/
 
 CREATE or REPLACE TRIGGER INSINCDESV
 AFTER INSERT ON DESVIO
